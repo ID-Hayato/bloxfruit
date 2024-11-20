@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Skill extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'common_name',
+        'description',
+        'dodge',
+        'dodge_specialmention',
+        'cooldown',
+    ];
 }

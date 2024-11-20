@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+Route::get('skill',[SkillController::class,'index']);
+Route::get('skill/create',[SkillController::class,"create"]);
+Route::post('skill', [SkillController::class,'store'])->name('skill.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
