@@ -11,7 +11,8 @@ public function index() {
 }
 
 public function create(){
-    return view('skill.create');
+    $skills=Skill::all();
+    return view('skill.create',compact('skills'));
 }
 public function store(Request $request) {
 $validated= $request->validate([

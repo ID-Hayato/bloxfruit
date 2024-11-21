@@ -3,6 +3,11 @@
     <div class="w-full">
         <h1 class="text-center text-4xl mb-4">スキル登録</h1>
 
+        @if (session('message'))
+            <div class="my-2 text-center text-red-600">
+                {{ session('message') }}
+            </div>
+        @endif
         <form action="{{ route('skill.store') }}" method="post">
             @csrf
             <div class="border-b-2 w-full mb-2">
@@ -26,7 +31,7 @@
                 <x-input-error :messages="$errors->get('description')" class="my-2 text-center" />
                 <div class="text-center mb-3">
                     <textarea name="description" class="w-3/4" id="" cols="30" rows="10"
-                        value="{{ old('description') }}"></textarea>
+                        value="">{{ old('description') }}</textarea>
                 </div>
 
             </div>
@@ -49,7 +54,7 @@
                 <x-input-error :messages="$errors->get('dodge_specialmention')" class="my-2 text-center" />
                 <div class="text-center mb-3">
                     <textarea name="dodge_specialmention" class="w-3/4 h-16" id="" cols="30" rows="10"
-                        value="{{ old('dodge_specialmention') }}"></textarea>
+                        value="">{{ old('dodge_specialmention') }}</textarea>
                 </div>
             </div>
             <div class="border-b-2 w-full mb-2">

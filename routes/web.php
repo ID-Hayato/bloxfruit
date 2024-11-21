@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\SwordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,10 @@ Route::get('/', function () {
 Route::get('skill',[SkillController::class,'index']);
 Route::get('skill/create',[SkillController::class,"create"]);
 Route::post('skill', [SkillController::class,'store'])->name('skill.store');
+
+Route::get('sword',[SwordController::class,'index']);
+Route::get('sword/create',[SwordController::class,'create']);
+Route::post('sword',[SwordController::class,'store'])->name('sword.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

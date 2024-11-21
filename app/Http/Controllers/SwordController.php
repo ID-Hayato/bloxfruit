@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Skill;
 use App\Models\Sword;
 use Illuminate\Http\Request;
 
@@ -12,17 +13,19 @@ class SwordController extends Controller
     }
     
     public function create(){
-        return view('sword.create');
+        $skills=Skill::all();
+        return view('sword.create',compact('skills'));
     }
 
     public function store(Request $request) {
         $validated= $request->validate([
                 'name' => 'required|string',
-                'common_name' => 'required|string|max:255',
-                'description' =>'required|string|max:255',
-                'dodge' => 'required|max:1',
-                'dodge_specialmention' => 'nullable',
-                'cooldown' => 'required|numeric',
+                'skill_z_id' => 'required|integer',
+                'skill_z_mastery'=>'required|integer|max:600',
+                'skill_x_id' => 'required|integer',
+                'skill_x_mastery'=>'required|integer|max:600',
+                'rarity'=>'required|string',
+                'howtogetit'=>'required|string',
         ]);
         
         
