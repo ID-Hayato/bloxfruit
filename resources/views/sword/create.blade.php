@@ -3,13 +3,18 @@
     <div class="w-full">
         <h1 class="text-center text-4xl mb-4">剣の登録</h1>
 
+        @if (session('message'))
+        <div class="my-2 text-center text-red-600">
+            {{ session('message') }}
+        </div>
+    @endif
         <form action="{{ route('sword.store') }}" method="post">
             @csrf
             <div class="border-b-2 w-full mb-2">
                 <p class="text-center">剣の名前</p>
                 <x-input-error :messages="$errors->get('name')" class="my-2 text-center" />
                 <div class="text-center mb-3">
-                    <input type="text" name="name" class="w-3/4" value="{{ old('name') }}">
+                    <input type="text" name="name" class="w-2/4" value="{{ old('name') }}">
                 </div>
             </div>
 
@@ -19,7 +24,7 @@
                 <div class="text-center mb-3">
                     <label>
                         <select name="skill_z_id" class="w-1/5">
-                            <option value="">スキルを選んでください</option>
+                            <option >スキルを選んでください</option>
                             @foreach ($skills as $skill)
                                 <option value="{{ $skill->id }}">{{ $skill->common_name }}</option>
                             @endforeach
@@ -42,7 +47,7 @@
                 <div class="text-center mb-3">
                     <label>
                         <select name="skill_x_id" class="w-1/5">
-                            <option value="">スキルを選んでください</option>
+                            <option >スキルを選んでください</option>
                             @foreach ($skills as $skill)
                                 <option value="{{ $skill->id }}">{{ $skill->common_name }}</option>
                             @endforeach
@@ -63,14 +68,12 @@
                 <p class="text-center">レア度を選択</p>
                 <x-input-error :messages="$errors->get('rerity')" class="my-2 text-center" />
                 <div class="text-center mb-3">
-                    <select name="skill_x_id" class="w-1/5">
+                    <select name="rarity" class="w-1/5">
                         <option value="Common">コモン</option>
                         <option value="Uncommon" class="text-blue-800">アンコモン</option>
                         <option value="Rare" class="text-purple-800">レア</option>
                         <option value="Legendary" class="text-pink-800">レジェンダリー</option>
                         <option value="Mythical" class="text-red-800">ミシック</option>
-
-
                     </select>
                 </div>
             </div>
