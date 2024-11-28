@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\FruitController;
 use App\Http\Controllers\GunController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SwordController;
+use App\Http\Controllers\FightingStyleController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +27,10 @@ Route::get('skill',[SkillController::class,'index']);
 Route::get('skill/create',[SkillController::class,"create"]);
 Route::post('skill', [SkillController::class,'store'])->name('skill.store');
 
+Route::get('fightingstyle',[FightingStyleController::class,'index']);
+Route::get('fightingstyle/create',[FightingStyleController::class,"create"]);
+Route::post('fightingstyle', [FightingStyleController::class,'store'])->name('fightingstyle.store');
+
 Route::get('sword',[SwordController::class,'index']);
 Route::get('sword/create',[SwordController::class,'create']);
 Route::post('sword',[SwordController::class,'store'])->name('sword.store');
@@ -31,6 +38,10 @@ Route::post('sword',[SwordController::class,'store'])->name('sword.store');
 Route::get('gun',[GunController::class,'index']);
 Route::get('gun/create',[GunController::class,'create']);
 Route::post('gun',[GunController::class,'store'])->name('gun.store');
+
+Route::get('fruit',[FruitController::class,'index']);
+Route::get('fruit/create',[FruitController::class,'create']);
+Route::post('fruit',[FruitController::class,'store'])->name('fruit.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
