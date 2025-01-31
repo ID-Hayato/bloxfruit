@@ -18,13 +18,13 @@
 
 <body class="bg-gray-200 ">
     <header class="w-full bg-blue-500  h-20 flex justify-center items-center">
-        <a href="/">
+        <a href="/admin">
             <p class="text-5xl text-white">ブロフルコミュニティ　管理者用ページ</p>
         </a>
 
     </header>
    
-    <div class="mx-auto pt-2  w-3/4 bg-white flex">
+    <div class="mx-auto pt-2  w-3/4 bg-white ">
       
             {{ $slot }}
       

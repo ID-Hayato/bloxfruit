@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Fruit;
 use App\Models\Skill;
-use App\Models\AnotherFruitSkill;
 use Illuminate\Http\Request;
+use App\Models\AnotherFruitSkill;
 
 class FruitController extends Controller
 {
+
+
     public function index()
     {
         return view('fruit.index');
@@ -18,63 +20,111 @@ class FruitController extends Controller
         $skills = Skill::all();
         return view('fruit.create', compact('skills'));
     }
+    public function argument()
+    {
+        $fruits = Fruit::all();
+        return view('fruit.argument', compact('fruits'));
+    }
 
     public function store(Request $request)
     {
-
-
-        $another_skill = array('another_skill_id' => null);
-
-
-
-        if (isset($request->fruit_name)) {
-
-            $anotherskillvalidated = $request->validate([
-                'fruit_name' => ' required|string|max:6',
-                'another_skill_type' => 'required|string',
-                'another_skill_tap_id' => 'integer',
-                'another_skill_z_id' => 'integer',
-                'another_skill_x_id' => 'integer',
-                'another_skill_c_id' => 'integer',
-                'another_skill_v_id' => 'integer',
-                'another_skill_f_id' => 'integer',
-            ]);
-
-
-            $post = AnotherFruitSkill::create($anotherskillvalidated);
-
-            $another_skill['another_skill_id'] = $post->id;
-        }
-
-
-
 
 
 
         $skillvalidated = $request->validate(
             [
                 'name' => 'required|string',
-                'skill_tap_id' => 'integer',
+                'skill_tap_id' => 'nullable|integer',
                 'skill_z_id' => 'required|integer',
                 'skill_z_mastery' => 'required|integer|max:600',
                 'skill_x_id' => 'required|integer',
                 'skill_x_mastery' => 'required|integer|max:600',
                 'skill_c_id' => 'required|integer',
                 'skill_c_mastery' => 'required|integer|max:600',
-                'skill_v_id' => 'integer',
-                'skill_v_mastery' => 'integer|max:600',
-                'skill_f_id' => 'integer',
-                'skill_f_mastery' => 'integer|max:600',
+                'skill_v_id' => 'nullable|integer',
+                'skill_v_mastery' => 'nullable|integer|max:600',
+                'skill_f_id' => 'nullable|integer',
+                'skill_f_mastery' => 'nullable|integer|max:600',
                 'rarity' => 'required|string',
                 'price' => 'required|integer',
-                
+
             ]
         );
-        // dd($skillvalidated);
 
+        $post = Fruit::create($skillvalidated);
 
-        $post = Fruit::create(array_merge($skillvalidated, $another_skill));
+        return view('fruit/choice', ['id' => $post->id]);
+    }
+    public function jump(Request $request)
+    {
+        $skills = Skill::all();
+        return view('another_fruit_skill/create', ['id' => $request->id], compact('skills'));
+    }
+    public function branch(Request $request)
+    {
+        $validated = $request->validate([
+            'fruit_id' => 'required|integer',
+            'branch' => 'required|string',
+        ]);
+        if ($validated['branch'] === "update") {
+            $skills = Skill::all();
+            $fruit = Fruit::find($validated['fruit_id']);
+            return view('fruit.update', compact('fruit', 'skills'));
+        } elseif ($validated['branch'] === "delete") {
+            $skills = Skill::all();
+            $fruit = Fruit::find($validated['fruit_id']);
+            return view('fruit.delete', compact('fruit', 'skills'));
+        } elseif ($validated['branch'] === "another_update") {
+            $another_id = Fruit::find($validated['fruit_id'])->another_skill_id;
+            if ($another_id === null) {
+                $skills = Skill::all();
+                return view('another_fruit_skill/create', ['id' => $validated['fruit_id']], compact('skills'));
+            } else {
+                $skills = Skill::all();
+                $another_fruit = AnotherFruitSkill::find($another_id);
+                return view('another_fruit_skill/update', compact('another_fruit', 'skills'));
+            }
+        } elseif ($validated['branch'] === "another_delete") {
+            $another_id = Fruit::find($validated['fruit_id'])->another_skill_id;
+            $skill_id = $validated['fruit_id'];
+            if ($another_id === null) {
+                return back()->with('message', 'この能力には変身、覚醒が存在しません。先にデータを登録してください');
+            } else {
+                $skills = Skill::all();
+                $another_fruit = AnotherFruitSkill::find($another_id);
+                return view('another_fruit_skill/delete', compact('another_fruit', 'skills', 'skill_id'));
+            }
+        }
+    }
+    
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|integer',
+            'skill_tap_id' => 'nullable|integer',
+            'skill_z_id' => 'required|integer',
+            'skill_z_mastery' => 'required|integer|max:600',
+            'skill_x_id' => 'required|integer',
+            'skill_x_mastery' => 'required|integer|max:600',
+            'skill_c_id' => 'required|integer',
+            'skill_c_mastery' => 'required|integer|max:600',
+            'skill_v_id' => 'nullable|integer',
+            'skill_v_mastery' => 'nullable|integer|max:600',
+            'skill_f_id' => 'nullable|integer',
+            'skill_f_mastery' => 'nullable|integer|max:600',
+            'rarity' => 'required|string',
+            'price' => 'required|integer',
+        ]);
+        $fruit = Fruit::find($validated['id']);
+        $fruit->update($validated);
 
-        return back()->with('message', '保存しました');
+        return view('/admin.index')->with('message', '更新が完了しました。');
+    }
+    public function destroy(Fruit $fruits, Request $request)
+    {
+
+        $fruits = Fruit::find($request->id);
+        $fruits->delete();
+        return view('/admin.index');
     }
 }
