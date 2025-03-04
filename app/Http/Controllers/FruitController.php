@@ -66,37 +66,38 @@ class FruitController extends Controller
             'fruit_id' => 'required|integer',
             'branch' => 'required|string',
         ]);
+        $skills = Skill::all();
+        $fruit = Fruit::find($validated['fruit_id']);
+
         if ($validated['branch'] === "update") {
-            $skills = Skill::all();
-            $fruit = Fruit::find($validated['fruit_id']);
             return view('fruit.update', compact('fruit', 'skills'));
-        } elseif ($validated['branch'] === "delete") {
-            $skills = Skill::all();
-            $fruit = Fruit::find($validated['fruit_id']);
+        }
+        if ($validated['branch'] === "delete") {
             return view('fruit.delete', compact('fruit', 'skills'));
-        } elseif ($validated['branch'] === "another_update") {
-            $another_id = Fruit::find($validated['fruit_id'])->another_skill_id;
+        }
+
+
+        $another_id = $fruit->another_skill_id;
+        $another_fruit = AnotherFruitSkill::find($another_id);
+
+        if ($validated['branch'] === "another_update") {
             if ($another_id === null) {
-                $skills = Skill::all();
                 return view('another_fruit_skill/create', ['id' => $validated['fruit_id']], compact('skills'));
             } else {
-                $skills = Skill::all();
-                $another_fruit = AnotherFruitSkill::find($another_id);
                 return view('another_fruit_skill/update', compact('another_fruit', 'skills'));
             }
-        } elseif ($validated['branch'] === "another_delete") {
-            $another_id = Fruit::find($validated['fruit_id'])->another_skill_id;
+        }
+
+        if ($validated['branch'] === "another_delete") {
             $skill_id = $validated['fruit_id'];
             if ($another_id === null) {
                 return back()->with('message', 'この能力には変身、覚醒が存在しません。先にデータを登録してください');
             } else {
-                $skills = Skill::all();
-                $another_fruit = AnotherFruitSkill::find($another_id);
                 return view('another_fruit_skill/delete', compact('another_fruit', 'skills', 'skill_id'));
             }
         }
     }
-    
+
     public function update(Request $request)
     {
         $validated = $request->validate([

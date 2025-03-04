@@ -21,7 +21,7 @@
         <a href="/">
             <p class="text-5xl text-white">ブロフルコミュニティ　【ぶろこみ】</p>
         </a>
-
+<a href="/admin" class="border text-white">管理者用ページへ</a>
     </header>
     <ul class="w-full h-12 bg-blue-400 flex justify-center items-center gap-2 mb-8">
         <a href=""
@@ -30,7 +30,7 @@
                 トップページ
             </li>
         </a>
-        <a href=""
+        <a href="/item"
             class="border-2 hover:bg-blue-100  bg-white rounded-md min-h-full w-1/4 flex justify-center items-center">
             <li class="text-2xl font-mono">
                 アイテム一覧
@@ -44,11 +44,11 @@
         </a>
     </ul>
     <div class="mx-auto pt-2  w-3/4 bg-white flex">
-        <main class="w-2/3 border-r-2 px-2 mb-2">
+        <main class="w-3/4 border-r-2 px-2 mb-2">
             <h1 class="text-center bg-blue-400 text-white ">ページタイトルの挿入</h1>
             {{ $slot }}
         </main>
-        <div class="w-1/3">
+        <div class="w-1/4">
 
             <div class="px-2 mb-2 ">
                 <p class="text-center bg-blue-400 text-white">カテゴリー</p>

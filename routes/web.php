@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SwordController;
 use App\Http\Controllers\FightingStyleController;
+use App\Http\Controllers\ItemController;
 use App\Models\AnotherFruitSkill;
 use App\Models\Fruit;
 use Illuminate\Support\Facades\Route;
@@ -81,6 +82,7 @@ Route::post('another_fruit_skill', [AnotherFruitSkillController::class, 'store']
 Route::post('another_fruit_skill/update', [AnotherFruitSkillController::class, "update"])->name('another_fruit_skill.update');
 Route::post('another_fruit_skill/{post}', [AnotherFruitSkillController::class, "destroy"])->name('another_fruit_skill.destroy');
 
+Route::get('item',[ItemController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
